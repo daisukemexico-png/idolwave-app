@@ -1,0 +1,9 @@
+{
+  "name": "idolwave-proxy",
+  "version": "1.0.0",
+  "description": "IDOLWAVE - YouTube API プロキシサーバー",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
