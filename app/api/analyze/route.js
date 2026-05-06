@@ -8,12 +8,7 @@ export async function POST(request) {
       return Response.json({ error: "ANTHROPIC_API_KEY未設定" }, { status: 500 });
     }
 
-    const prompt = `以下のYouTube動画がアイドル楽曲か判断し、JSON形式のみで回答してください。説明文不要。
-タイトル: ${title}
-チャンネル: ${channel}
-再生数: ${viewCount}
-
-{"isIdol":true,"confidence":0.95,"songTitle":"曲名","artistName":"アーティスト名","groupName":"グループ名","genre":"ジャンル","mood":"雰囲気","targetAge":"年齢層","popularCities":["東京","大阪"],"reason":"理由1文"}`;
+   const prompt = `以下のYouTube動画がアイドル楽曲か判断し、JSON形式のみで回答してください。説明文不要。タイトル: ${title} チャンネル: ${channel} 再生数: ${viewCount} {"isIdol":true,"confidence":0.95,"songTitle":"曲名","artistName":"アーティスト名","groupName":"グループ名","genre":"ジャンル","mood":"雰囲気","targetAge":"年齢層","popularCities":["東京","大阪"],"reason":"理由1文"}`;
 
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
