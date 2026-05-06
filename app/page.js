@@ -174,23 +174,16 @@ function YouTubeScreen() {
 
       // Step2: Claude AI解析
       setStep(2); addLog("🤖 Claude AIで解析中...", "#b44fff");
-      const prompt = `以下のYouTube動画がアイドル楽曲か判断し、JSON形式のみで回答してください。説明文不要。
-タイトル: ${yt.title}
-チャンネル: ${yt.channel}
-説明: ${yt.description?.slice(0,200)}
-タグ: ${yt.tags?.join(",")}
-再生数: ${yt.viewCount}
-
-{"isIdol":true,"confidence":0.95,"songTitle":"曲名","artistName":"アーティスト名","groupName":"グループ名","genre":"ジャンル","mood":"雰囲気","targetAge":"年齢層","popularCities":["東京","大阪"],"reason":"理由1文"}`;
-
-      const aiRes = await fetch("https://api.anthropic.com/v1/messages", {
-        method:"POST", headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:800, messages:[{role:"user",content:prompt}] }),
+      const aiRes = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: yt.title, channel: yt.channel,
+          description: yt.description, tags: yt.tags, viewCount: yt.viewCount,
+        }),
       });
-      if(!aiRes.ok){ const e=await aiRes.json(); throw new Error(`Claude APIエラー: ${e.error?.message}`); }
-      const aiData = await aiRes.json();
-      const raw = aiData.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
-      const ai = JSON.parse(raw);
+      if(!aiRes.ok){ const e=await aiRes.json(); throw new Error(`AI解析エラー: ${e.error||aiRes.status}`); }
+      const ai = await aiRes.json();
       setAiResult(ai);
       addLog(`✅ AI解析完了: ${ai.isIdol?"アイドル楽曲":"アイドル外"} (${Math.round(ai.confidence*100)}%)`, "#00ff9f");
       if(ai.artistName) addLog(`🎤 ${ai.artistName} / ${ai.groupName}`, "#ff3366");
