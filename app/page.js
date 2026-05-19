@@ -5,27 +5,51 @@ import { useState, useEffect, useRef } from "react";
 const SONGS = [
   { id:"neon-butterfly",     title:"Neon Butterfly",     artist:"夜空ハナ",  group:"NEON SISTERS",   img:"🦋", color:"#b44fff", plays:12480, venue:"TOKYO IDOL THEATER",        city:"秋葉原", rank:1, duration:188 },
   { id:"starlight-overture", title:"Starlight Overture", artist:"桜花ミル",  group:"SAKURA BLOOM",   img:"🌸", color:"#ff3366", plays:8470,  venue:"SHIBUYA PLEASURE PLEASURE", city:"渋谷",   rank:2, duration:214 },
-  { id:"midnight-call",      title:"Midnight Call",      artist:"月城アイ",  group:"MOON PHASE",     img:"🌙", color:"#00d4ff", plays:9210,  venue:"BIG CAT",                   city:"大阪",   rank:3, duration:231 },
-  { id:"summer-parade",      title:"Summer Parade",      artist:"陽菜リン",  group:"SUNSHINE GIRLS", img:"🌻", color:"#ffd700", plays:5340,  venue:"ZEPP NAGOYA",               city:"名古屋", rank:4, duration:197 },
-  { id:"heartbeat-drop",     title:"Heartbeat Drop",     artist:"桃瀬ユイ",  group:"PEACH RUSH",     img:"🍑", color:"#ff6b35", plays:5120,  venue:"CLUB CITTA'",               city:"川崎",   rank:5, duration:203 },
+  { id:"midnight-call",      title:"Midnight Call",      artist:"月城アイ",  group:"MOON PHASE",     img:"🌙", color:"#00d4ff", plays:9210,  venue:"SHELTER",                   city:"下北沢",  rank:3, duration:231 },
+  { id:"summer-parade",      title:"Summer Parade",      artist:"陽菜リン",  group:"SUNSHINE GIRLS", img:"🌻", color:"#ffd700", plays:5340,  venue:"SHINJUKU BLAZE",            city:"新宿",   rank:4, duration:197 },
+  { id:"heartbeat-drop",     title:"Heartbeat Drop",     artist:"桃瀬ユイ",  group:"PEACH RUSH",     img:"🍑", color:"#ff6b35", plays:5120,  venue:"LIQUID ROOM",               city:"恵比寿",  rank:5, duration:203 },
 ];
 
 const VENUES = [
-  { id:1, name:"TOKYO IDOL THEATER",        city:"秋葉原", x:218, y:178, plays:1203, color:"#b44fff", songs:[{title:"Neon Butterfly",plays:1203},{title:"Starlight Overture",plays:847}] },
-  { id:2, name:"SHIBUYA PLEASURE PLEASURE", city:"渋谷",   x:210, y:183, plays:847,  color:"#ff3366", songs:[{title:"Starlight Overture",plays:847},{title:"Summer Parade",plays:534}] },
-  { id:3, name:"BIG CAT",                   city:"大阪",   x:178, y:210, plays:921,  color:"#00d4ff", songs:[{title:"Midnight Call",plays:921},{title:"Neon Butterfly",plays:688}] },
-  { id:4, name:"ZEPP NAGOYA",               city:"名古屋", x:192, y:200, plays:634,  color:"#ffd700", songs:[{title:"Summer Parade",plays:634},{title:"Heartbeat Drop",plays:489}] },
-  { id:5, name:"Zepp Fukuoka",              city:"福岡",   x:138, y:255, plays:388,  color:"#00ff9f", songs:[{title:"Summer Parade",plays:388},{title:"Starlight Overture",plays:245}] },
-  { id:6, name:"Zepp Sapporo",              city:"札幌",   x:238, y:108, plays:210,  color:"#ff6b35", songs:[{title:"Neon Butterfly",plays:210},{title:"Starlight Overture",plays:167}] },
+  { id:1,  name:"秋葉原",   city:"秋葉原",   x:185, y:100, plays:2203, color:"#b44fff", songs:[{title:"Neon Butterfly",plays:1203},{title:"Starlight Overture",plays:1000}] },
+  { id:2,  name:"渋谷",     city:"渋谷",     x:125, y:152, plays:1847, color:"#ff3366", songs:[{title:"Starlight Overture",plays:847},{title:"Summer Parade",plays:1000}] },
+  { id:3,  name:"下北沢",   city:"下北沢",   x:90,  y:162, plays:1721, color:"#00d4ff", songs:[{title:"Midnight Call",plays:921},{title:"Neon Butterfly",plays:800}] },
+  { id:4,  name:"新宿",     city:"新宿",     x:128, y:102, plays:1534, color:"#ffd700", songs:[{title:"Summer Parade",plays:834},{title:"Heartbeat Drop",plays:700}] },
+  { id:5,  name:"池袋",     city:"池袋",     x:88,  y:48,  plays:988,  color:"#00ff9f", songs:[{title:"Neon Butterfly",plays:588},{title:"Summer Parade",plays:400}] },
+  { id:6,  name:"高田馬場", city:"高田馬場", x:113, y:72,  plays:810,  color:"#ff6b35", songs:[{title:"Midnight Call",plays:510},{title:"Neon Butterfly",plays:300}] },
+  { id:7,  name:"中野",     city:"中野",     x:68,  y:90,  plays:760,  color:"#ff99cc", songs:[{title:"Starlight Overture",plays:460},{title:"Summer Parade",plays:300}] },
+  { id:8,  name:"恵比寿",   city:"恵比寿",   x:140, y:172, plays:1210, color:"#00ccff", songs:[{title:"Heartbeat Drop",plays:710},{title:"Midnight Call",plays:500}] },
+  { id:9,  name:"目黒",     city:"目黒",     x:133, y:192, plays:690,  color:"#99ff99", songs:[{title:"Heartbeat Drop",plays:390},{title:"Neon Butterfly",plays:300}] },
+  { id:10, name:"原宿",     city:"原宿",     x:128, y:128, plays:920,  color:"#ffcc00", songs:[{title:"Starlight Overture",plays:520},{title:"Neon Butterfly",plays:400}] },
+  { id:11, name:"赤坂",     city:"赤坂",     x:163, y:132, plays:840,  color:"#cc44ff", songs:[{title:"Midnight Call",plays:440},{title:"Summer Parade",plays:400}] },
+  { id:12, name:"六本木",   city:"六本木",   x:168, y:152, plays:1100, color:"#ff4444", songs:[{title:"Heartbeat Drop",plays:600},{title:"Starlight Overture",plays:500}] },
 ];
 
 const MOCK_VENUES_YT = [
-  { city:"秋葉原", venue:"TOKYO IDOL THEATER",        color:"#b44fff" },
-  { city:"渋谷",   venue:"SHIBUYA PLEASURE PLEASURE", color:"#ff3366" },
-  { city:"大阪",   venue:"BIG CAT",                   color:"#00d4ff" },
-  { city:"名古屋", venue:"ZEPP NAGOYA",                color:"#ffd700" },
-  { city:"福岡",   venue:"Zepp Fukuoka",               color:"#00ff9f" },
-  { city:"札幌",   venue:"Zepp Sapporo",               color:"#ff6b35" },
+  { city:"渋谷",    venue:"SHIBUYA PLEASURE PLEASURE", color:"#ff3366" },
+  { city:"渋谷",    venue:"WWW",                        color:"#ff3366" },
+  { city:"下北沢",  venue:"SHELTER",                    color:"#00d4ff" },
+  { city:"下北沢",  venue:"GARDEN",                     color:"#00d4ff" },
+  { city:"新宿",    venue:"SHINJUKU BLAZE",             color:"#ffd700" },
+  { city:"新宿",    venue:"ACB HALL",                   color:"#ffd700" },
+  { city:"秋葉原",  venue:"TOKYO IDOL THEATER",         color:"#b44fff" },
+  { city:"秋葉原",  venue:"AKiBA CULTURES THEATER",     color:"#b44fff" },
+  { city:"池袋",    venue:"BLACK HOLE",                 color:"#00ff9f" },
+  { city:"池袋",    venue:"ZERO IKEBUKURO",             color:"#00ff9f" },
+  { city:"高田馬場", venue:"AREA",                      color:"#ff6b35" },
+  { city:"高田馬場", venue:"PHASE",                     color:"#ff6b35" },
+  { city:"中野",    venue:"HEAVY SICK ZERO",            color:"#ff99cc" },
+  { city:"中野",    venue:"THE CAGE",                   color:"#ff99cc" },
+  { city:"恵比寿",  venue:"LIQUID ROOM",                color:"#00ccff" },
+  { city:"恵比寿",  venue:"GARDEN HALL",                color:"#00ccff" },
+  { city:"目黒",    venue:"BLUES ALLEY JAPAN",          color:"#99ff99" },
+  { city:"目黒",    venue:"MEGURO LIVE STATION",        color:"#99ff99" },
+  { city:"原宿",    venue:"LAFORET MUSEUM",             color:"#ffcc00" },
+  { city:"原宿",    venue:"ASTRO HALL",                 color:"#ffcc00" },
+  { city:"赤坂",    venue:"AKASAKA BLITZ",              color:"#cc44ff" },
+  { city:"赤坂",    venue:"RED THEATER",                color:"#cc44ff" },
+  { city:"六本木",  venue:"EX THEATER ROPPONGI",        color:"#ff4444" },
+  { city:"六本木",  venue:"V2 TOKYO",                   color:"#ff4444" },
 ];
 
 const fmt = (s) => `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
@@ -112,7 +136,7 @@ function RadioScreen({ onShare }) {
         <div style={{ background:"#0d0d1e",borderRadius:12,padding:"12px 14px",border:`1px solid ${song.color}22` }}>
           <div style={{ display:"flex",justifyContent:"space-between",fontSize:10,color:"#666",marginBottom:8 }}>
             <span>🎵 本日 <strong style={{ color:song.color }}>{song.plays.toLocaleString()}</strong> 回</span>
-            <span>全国 #{song.rank}</span>
+            <span>東京 #{song.rank}</span>
           </div>
           <WaveViz playing={playing} color={song.color}/>
         </div>
@@ -163,7 +187,6 @@ function YouTubeScreen() {
     if(!videoId){ setError("有効なYouTube URLを入力してください"); return; }
 
     try {
-      // Step1: 内蔵APIルート経由（CORSなし）
       setStep(1); addLog("📡 YouTube情報を取得中...", "#ffd700");
       const res = await fetch(`/api/youtube?videoId=${videoId}`);
       if(!res.ok){ const j=await res.json(); throw new Error(j.detail||j.error||"YouTube取得失敗"); }
@@ -172,7 +195,6 @@ function YouTubeScreen() {
       addLog(`✅ 取得成功: 「${yt.title}」`, "#00ff9f");
       addLog(`👁 再生数: ${yt.viewCount.toLocaleString()}回`, "#00d4ff");
 
-      // Step2: Claude AI解析
       setStep(2); addLog("🤖 Claude AIで解析中...", "#b44fff");
       const aiRes = await fetch("/api/analyze", {
         method: "POST",
@@ -191,8 +213,7 @@ function YouTubeScreen() {
       addLog(`✅ AI解析完了: ${ai.isIdol?"アイドル楽曲":"アイドル外"} (${Math.round(ai.confidence*100)}%)`, "#00ff9f");
       if(ai.artistName) addLog(`🎤 ${ai.artistName} / ${ai.groupName}`, "#ff3366");
 
-      // Step3: 会場マッピング
-      setStep(3); addLog("🗾 全国会場マッピング中...", "#00d4ff");
+      setStep(3); addLog("🗼 東京会場マッピング中...", "#00d4ff");
       const base = Math.min(Math.floor(yt.viewCount/1000), 2000);
       const popular = ai.popularCities||[];
       const venues = MOCK_VENUES_YT.map(v=>({
@@ -200,7 +221,7 @@ function YouTubeScreen() {
         plays: Math.max(50, Math.floor(base*(popular.some(c=>v.city.includes(c)||c.includes(v.city))?1.6:1.0)*(0.4+Math.random()*0.6)))
       })).sort((a,b)=>b.plays-a.plays);
       setVenueData(venues);
-      addLog(`✅ ${venues.length}会場マッピング完了！`, "#00ff9f");
+      addLog(`✅ 東京${venues.length}会場マッピング完了！`, "#00ff9f");
       addLog("🎉 完了！", "#ff3366");
       setStep(4);
     } catch(e) { setError(e.message); setStep(0); addLog(`❌ ${e.message}`, "#ff6666"); }
@@ -208,10 +229,18 @@ function YouTubeScreen() {
 
   const maxPlays = venueData.length ? Math.max(...venueData.map(v=>v.plays)) : 1;
 
+  // エリア別集計
+  const areaData = venueData.length ? Object.values(venueData.reduce((acc, v) => {
+    if (!acc[v.city]) acc[v.city] = { city: v.city, plays: 0, color: v.color };
+    acc[v.city].plays += v.plays;
+    return acc;
+  }, {})).sort((a,b) => b.plays - a.plays) : [];
+  const maxArea = areaData.length ? Math.max(...areaData.map(a=>a.plays)) : 1;
+
   return (
     <div style={{ padding:"16px",display:"flex",flexDirection:"column",gap:14 }}>
       <div style={{ background:"#0d0d1e",border:"1px solid #ffffff0a",borderRadius:14,padding:16 }}>
-        <div style={{ fontSize:11,color:"#888",marginBottom:10 }}>YouTube URLを入力して楽曲・会場データを解析</div>
+        <div style={{ fontSize:11,color:"#888",marginBottom:10 }}>YouTube URLを入力して楽曲・東京会場データを解析</div>
         <div style={{ display:"flex",gap:8,marginBottom:10 }}>
           <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." onKeyDown={e=>e.key==="Enter"&&handleAnalyze()}
             style={{ flex:1,background:"#06060f",border:"1px solid #ffffff18",borderRadius:10,padding:"10px 12px",color:"#ccc",fontSize:11,fontFamily:"monospace",outline:"none",boxSizing:"border-box" }}/>
@@ -278,9 +307,24 @@ function YouTubeScreen() {
           </div>
 
           <div style={{ background:"#0d0d1e",border:"1px solid #ffffff0a",borderRadius:14,padding:16 }}>
-            <div style={{ fontSize:12,fontWeight:700,color:"#aaa",marginBottom:12 }}>🗾 全国会場 推定再生数/日</div>
+            <div style={{ fontSize:12,fontWeight:700,color:"#aaa",marginBottom:12 }}>🗼 東京エリア別 推定再生数/日</div>
+            {/* エリア別集計ドット */}
+            <div style={{ display:"flex",flexWrap:"wrap",gap:8,marginBottom:16,alignItems:"flex-end",justifyContent:"center" }}>
+              {areaData.map(a => {
+                const r = 14 + (a.plays/maxArea)*20;
+                return (
+                  <div key={a.city} style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:3 }}>
+                    <div style={{ width:r*2,height:r*2,borderRadius:"50%",background:`${a.color}33`,border:`1px solid ${a.color}88`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:a.color,fontWeight:700,textAlign:"center",lineHeight:1.2 }}>
+                      {a.plays>999?`${(a.plays/1000).toFixed(1)}k`:a.plays}
+                    </div>
+                    <div style={{ fontSize:8,color:"#666" }}>{a.city}</div>
+                  </div>
+                );
+              })}
+            </div>
+            {/* 個別会場リスト */}
             {venueData.map((v,i)=>(
-              <div key={v.city} style={{ marginBottom:10 }}>
+              <div key={v.venue} style={{ marginBottom:10 }}>
                 <div style={{ display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:4 }}>
                   <span style={{ color:i===0?"#fff":"#aaa" }}><span style={{ color:v.color,marginRight:6 }}>#{i+1}</span>{v.city} <span style={{ color:"#555",fontSize:10 }}>— {v.venue}</span></span>
                   <span style={{ color:v.color,fontWeight:700 }}>{v.plays.toLocaleString()} 回/日</span>
@@ -302,7 +346,7 @@ function YouTubeScreen() {
 function ShareModal({ song, onClose }) {
   const [copied, setCopied] = useState(false);
   const url = `https://idolwave.app/song/${song.id}`;
-  const text = `🎵 今これ聴いてる！\n「${song.title}」/ ${song.artist}\n全国${song.city}の会場でも大人気🔥\n#IDOLWAVE`;
+  const text = `🎵 今これ聴いてる！\n「${song.title}」/ ${song.artist}\n東京${song.city}の会場でも大人気🔥\n#IDOLWAVE`;
 
   const share = async (target) => {
     if(target==="copy"){ try{ await navigator.clipboard.writeText(url); }catch{} setCopied(true); setTimeout(()=>setCopied(false),2000); return; }
@@ -340,14 +384,17 @@ function MapScreen() {
   const selV = VENUES.find(v=>v.id===sel);
   return (
     <div>
-      <svg viewBox="80 70 200 260" style={{ width:"100%",maxHeight:280,display:"block" }} onClick={()=>setSel(null)}>
+      <svg viewBox="45 25 165 185" style={{ width:"100%",maxHeight:280,display:"block" }} onClick={()=>setSel(null)}>
         <defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ffffff04" strokeWidth=".5"/></pattern></defs>
-        <rect x="80" y="70" width="200" height="260" fill="url(#g)"/>
-        <ellipse cx="215" cy="185" rx="28" ry="48" fill="#0f0f22" stroke="#1e1e40" strokeWidth="1.2"/>
-        <ellipse cx="185" cy="215" rx="22" ry="18" fill="#0f0f22" stroke="#1e1e40" strokeWidth="1"/>
-        <ellipse cx="165" cy="232" rx="18" ry="10" fill="#0f0f22" stroke="#1e1e40" strokeWidth="1"/>
-        <ellipse cx="130" cy="268" rx="20" ry="26" fill="#0f0f22" stroke="#1e1e40" strokeWidth="1"/>
-        <ellipse cx="238" cy="104" rx="26" ry="20" fill="#0f0f22" stroke="#1e1e40" strokeWidth="1.2"/>
+        <rect x="45" y="25" width="165" height="185" fill="url(#g)"/>
+        {/* 主要路線 */}
+        <polyline points="88,48 113,72 128,102 128,128 125,152 140,172 133,192" fill="none" stroke="#1e1e40" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <line x1="128" y1="102" x2="185" y2="100" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="128" y1="102" x2="68" y2="90" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="125" y1="152" x2="90" y2="162" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="128" y1="128" x2="163" y2="132" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="163" y1="132" x2="168" y2="152" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="163" y1="132" x2="185" y2="100" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
         {VENUES.map(v=>{
           const r=8+(v.plays/maxP)*20, isSel=sel===v.id;
           return (
@@ -363,12 +410,15 @@ function MapScreen() {
       <div style={{ padding:"0 16px 16px" }}>
         {selV?(
           <div style={{ background:"#0d0d1e",border:`1px solid ${selV.color}44`,borderRadius:14,padding:14 }}>
-            <div style={{ display:"flex",justifyContent:"space-between",marginBottom:10 }}>
+            <div style={{ display:"flex",justifyContent:"space-between",marginBottom:6 }}>
               <div>
                 <div style={{ fontSize:10,color:selV.color,fontWeight:700,marginBottom:4 }}>📍{selV.city}</div>
-                <div style={{ fontSize:14,fontWeight:900 }}>{selV.name}</div>
+                <div style={{ fontSize:14,fontWeight:900 }}>{selV.name} エリア</div>
               </div>
               <button onClick={()=>setSel(null)} style={{ background:"transparent",border:"none",color:"#555",fontSize:18,cursor:"pointer" }}>×</button>
+            </div>
+            <div style={{ fontSize:10,color:"#555",marginBottom:10 }}>
+              {MOCK_VENUES_YT.filter(v=>v.city===selV.city).map(v=>v.venue).join(" · ")}
             </div>
             {selV.songs.map((s,i)=>(
               <div key={s.title} style={{ marginBottom:8 }}>
@@ -389,7 +439,7 @@ function MapScreen() {
                 <div style={{ width:24,height:24,borderRadius:"50%",background:`${v.color}22`,border:`1px solid ${v.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:v.color,flexShrink:0 }}>{i+1}</div>
                 <div style={{ flex:1,minWidth:0 }}>
                   <div style={{ fontSize:12,fontWeight:700,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{v.name}</div>
-                  <div style={{ fontSize:10,color:"#666" }}>{v.city}</div>
+                  <div style={{ fontSize:10,color:"#666" }}>{MOCK_VENUES_YT.filter(mv=>mv.city===v.city).map(mv=>mv.venue).join(" · ")}</div>
                 </div>
                 <div style={{ fontSize:13,fontWeight:900,color:v.color,flexShrink:0 }}>{v.plays.toLocaleString()}</div>
               </div>
@@ -405,7 +455,7 @@ function MapScreen() {
 const TABS = [
   { id:"radio",   icon:"📻", label:"ラジオ" },
   { id:"youtube", icon:"▶",  label:"YouTube" },
-  { id:"map",     icon:"🗾", label:"マップ" },
+  { id:"map",     icon:"🗼", label:"マップ" },
 ];
 
 export default function App() {
@@ -429,6 +479,7 @@ export default function App() {
         <div>
           <span style={{ fontSize:16,fontWeight:900,color:"#ff3366" }}>IDOL</span>
           <span style={{ fontSize:16,fontWeight:900 }}>WAVE</span>
+          <span style={{ fontSize:10,color:"#555",marginLeft:8 }}>東京ライブハウス</span>
         </div>
         <div style={{ display:"flex",alignItems:"center",gap:6,fontSize:9,color:"#ff3366",fontWeight:700 }}>
           <div style={{ width:5,height:5,borderRadius:"50%",background:"#ff3366",animation:"pulse 1s infinite" }}/>ON AIR
