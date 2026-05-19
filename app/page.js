@@ -284,47 +284,47 @@ function YouTubeScreen() {
 
   return (
     <div style={{ padding:"16px",display:"flex",flexDirection:"column",gap:14 }}>
-      <div style={{ background:"#0d0d1e",border:"1px solid #ffffff0a",borderRadius:14,padding:16 }}>
-        <div style={{ fontSize:11,color:"#888",marginBottom:10 }}>YouTube URLを入力して楽曲・東京会場データを解析</div>
+      <div style={{ background:"#fff",border:"1px solid #f0e8ff",borderRadius:14,padding:16,boxShadow:"0 2px 12px #b44fff0c" }}>
+        <div style={{ fontSize:11,color:"#aaa",marginBottom:10 }}>YouTube URLを入力して楽曲・東京会場データを解析</div>
         <div style={{ display:"flex",gap:8,marginBottom:10 }}>
           <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://youtube.com/watch?v=..." onKeyDown={e=>e.key==="Enter"&&handleAnalyze()}
-            style={{ flex:1,background:"#06060f",border:"1px solid #ffffff18",borderRadius:10,padding:"10px 12px",color:"#ccc",fontSize:11,fontFamily:"monospace",outline:"none",boxSizing:"border-box" }}/>
-          <button onClick={handleAnalyze} disabled={step>0&&step<4} style={{ background:step>0&&step<4?"#333":"linear-gradient(135deg,#ff3366,#b44fff)",border:"none",borderRadius:10,color:"#fff",padding:"0 18px",fontSize:12,fontWeight:700,cursor:step>0&&step<4?"not-allowed":"pointer",display:"flex",alignItems:"center",gap:8,flexShrink:0 }}>
-            {step>0&&step<4?<Spinner color="#fff"/>:"解析"}
+            style={{ flex:1,background:"#faf8ff",border:"1px solid #e8e0f8",borderRadius:10,padding:"10px 12px",color:"#555",fontSize:11,fontFamily:"monospace",outline:"none",boxSizing:"border-box" }}/>
+          <button onClick={handleAnalyze} disabled={step>0&&step<4} style={{ background:step>0&&step<4?"#e8e0f8":"linear-gradient(135deg,#ff3366,#b44fff)",border:"none",borderRadius:10,color:step>0&&step<4?"#aaa":"#fff",padding:"0 18px",fontSize:12,fontWeight:700,cursor:step>0&&step<4?"not-allowed":"pointer",display:"flex",alignItems:"center",gap:8,flexShrink:0 }}>
+            {step>0&&step<4?<Spinner color="#b44fff"/>:"解析"}
           </button>
         </div>
         <div style={{ display:"flex",flexWrap:"wrap",gap:6 }}>
           {[{label:"AKB48",url:"https://www.youtube.com/watch?v=KnMGrCDLVXo"},{label:"乃木坂46",url:"https://www.youtube.com/watch?v=2G2iZxnHFO0"},{label:"BABYMETAL",url:"https://www.youtube.com/watch?v=cK3NMZAUKGw"}].map(ex=>(
-            <button key={ex.label} onClick={()=>setUrl(ex.url)} style={{ padding:"4px 10px",background:"#ffffff08",border:"1px solid #ffffff14",borderRadius:8,color:"#888",fontSize:10,cursor:"pointer" }}>{ex.label} ▸</button>
+            <button key={ex.label} onClick={()=>setUrl(ex.url)} style={{ padding:"4px 10px",background:"#f8f4ff",border:"1px solid #e8e0f8",borderRadius:8,color:"#aaa",fontSize:10,cursor:"pointer" }}>{ex.label} ▸</button>
           ))}
         </div>
       </div>
 
-      {error&&<div style={{ background:"#ff336611",border:"1px solid #ff336644",borderRadius:10,padding:"12px 14px",fontSize:12,color:"#ff9999" }}>⚠️ {error}</div>}
+      {error&&<div style={{ background:"#fff0f3",border:"1px solid #ffb3c6",borderRadius:10,padding:"12px 14px",fontSize:12,color:"#cc2255" }}>⚠️ {error}</div>}
 
       {log.length>0&&(
-        <div style={{ background:"#06060f",border:"1px solid #ffffff08",borderRadius:12,padding:12,fontFamily:"monospace",fontSize:11,maxHeight:140,overflowY:"auto",display:"flex",flexDirection:"column",gap:4 }}>
+        <div style={{ background:"#1e1530",border:"1px solid #3a2a50",borderRadius:12,padding:12,fontFamily:"monospace",fontSize:11,maxHeight:140,overflowY:"auto",display:"flex",flexDirection:"column",gap:4 }}>
           {log.map((l,i)=>(
             <div key={i} style={{ display:"flex",gap:8 }}>
-              <span style={{ color:"#333",flexShrink:0 }}>{l.t}</span>
+              <span style={{ color:"#665577",flexShrink:0 }}>{l.t}</span>
               <span style={{ color:l.color,lineHeight:1.5 }}>{l.msg}</span>
             </div>
           ))}
-          {step>0&&step<4&&<div style={{ display:"flex",gap:6,alignItems:"center",color:"#555" }}><Spinner color="#555" size={12}/><span>処理中...</span></div>}
+          {step>0&&step<4&&<div style={{ display:"flex",gap:6,alignItems:"center",color:"#665577" }}><Spinner color="#b44fff" size={12}/><span>処理中...</span></div>}
         </div>
       )}
 
       {step===4&&ytData&&aiResult&&(
         <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
-          <div style={{ background:"#0d0d1e",border:"1px solid #ff336633",borderRadius:14,overflow:"hidden" }}>
-            {ytData.thumbnail&&<img src={ytData.thumbnail} alt="" style={{ width:"100%",height:160,objectFit:"cover",display:"block",opacity:.8 }}/>}
+          <div style={{ background:"#fff",border:"1px solid #ffd0e0",borderRadius:14,overflow:"hidden",boxShadow:"0 2px 12px #ff336610" }}>
+            {ytData.thumbnail&&<img src={ytData.thumbnail} alt="" style={{ width:"100%",height:160,objectFit:"cover",display:"block" }}/>}
             <div style={{ padding:14 }}>
-              <div style={{ fontSize:14,fontWeight:900,marginBottom:4,lineHeight:1.3 }}>{ytData.title}</div>
-              <div style={{ fontSize:11,color:"#888",marginBottom:10 }}>{ytData.channel} · {ytData.publishedAt}</div>
+              <div style={{ fontSize:14,fontWeight:900,color:"#222",marginBottom:4,lineHeight:1.3 }}>{ytData.title}</div>
+              <div style={{ fontSize:11,color:"#aaa",marginBottom:10 }}>{ytData.channel} · {ytData.publishedAt}</div>
               <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:8 }}>
-                {[{label:"YouTube再生数",value:ytData.viewCount.toLocaleString(),color:"#ff3366"},{label:"高評価",value:ytData.likeCount.toLocaleString(),color:"#ffd700"}].map(s=>(
-                  <div key={s.label} style={{ background:"#06060f",borderRadius:8,padding:"8px 10px",textAlign:"center" }}>
-                    <div style={{ fontSize:9,color:"#555",marginBottom:3 }}>{s.label}</div>
+                {[{label:"YouTube再生数",value:ytData.viewCount.toLocaleString(),color:"#ff3366"},{label:"高評価",value:ytData.likeCount.toLocaleString(),color:"#e0a000"}].map(s=>(
+                  <div key={s.label} style={{ background:"#faf8ff",borderRadius:8,padding:"8px 10px",textAlign:"center",border:"1px solid #f0e8ff" }}>
+                    <div style={{ fontSize:9,color:"#bbb",marginBottom:3 }}>{s.label}</div>
                     <div style={{ fontSize:14,fontWeight:900,color:s.color }}>{s.value}</div>
                   </div>
                 ))}
@@ -332,37 +332,37 @@ function YouTubeScreen() {
             </div>
           </div>
 
-          <div style={{ background:"linear-gradient(135deg,#0d0020,#0a0018)",border:`1px solid ${aiResult.isIdol?"#b44fff44":"#555"}`,borderRadius:14,padding:16 }}>
+          <div style={{ background:`linear-gradient(135deg,${aiResult.isIdol?"#fdf0ff":"#f8f8f8"},#fff)`,border:`1.5px solid ${aiResult.isIdol?"#e0b0ff":"#e8e8e8"}`,borderRadius:14,padding:16,boxShadow:"0 2px 12px #b44fff0c" }}>
             <div style={{ display:"flex",alignItems:"center",gap:10,marginBottom:14 }}>
-              <div style={{ width:36,height:36,borderRadius:10,background:aiResult.isIdol?"#b44fff22":"#333",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20 }}>{aiResult.isIdol?"🎤":"🤔"}</div>
+              <div style={{ width:40,height:40,borderRadius:12,background:aiResult.isIdol?"#b44fff22":"#f0f0f0",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22 }}>{aiResult.isIdol?"🎤":"🤔"}</div>
               <div>
-                <div style={{ fontSize:13,fontWeight:900,color:aiResult.isIdol?"#b44fff":"#aaa" }}>{aiResult.isIdol?"アイドル楽曲と判定":"アイドル楽曲ではない可能性"}</div>
-                <div style={{ fontSize:10,color:"#666" }}>AI確信度: {Math.round(aiResult.confidence*100)}%</div>
+                <div style={{ fontSize:13,fontWeight:900,color:aiResult.isIdol?"#9933ee":"#888" }}>{aiResult.isIdol?"アイドル楽曲と判定":"アイドル楽曲ではない可能性"}</div>
+                <div style={{ fontSize:10,color:"#bbb" }}>AI確信度: {Math.round(aiResult.confidence*100)}%</div>
               </div>
             </div>
             <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10 }}>
-              {[{label:"楽曲名",value:aiResult.songTitle||"不明",color:"#ff3366"},{label:"アーティスト",value:aiResult.artistName||"不明",color:"#ff6b35"},{label:"グループ",value:aiResult.groupName||"不明",color:"#ffd700"},{label:"ジャンル",value:aiResult.genre||"不明",color:"#00d4ff"},{label:"雰囲気",value:aiResult.mood||"不明",color:"#b44fff"},{label:"対象年齢",value:aiResult.targetAge||"不明",color:"#00ff9f"}].map(s=>(
-                <div key={s.label} style={{ background:"#06060f",borderRadius:8,padding:"8px 10px" }}>
-                  <div style={{ fontSize:9,color:"#555",marginBottom:3 }}>{s.label}</div>
+              {[{label:"楽曲名",value:aiResult.songTitle||"不明",color:"#ff3366"},{label:"アーティスト",value:aiResult.artistName||"不明",color:"#e05500"},{label:"グループ",value:aiResult.groupName||"不明",color:"#c08800"},{label:"ジャンル",value:aiResult.genre||"不明",color:"#0088bb"},{label:"雰囲気",value:aiResult.mood||"不明",color:"#9933ee"},{label:"対象年齢",value:aiResult.targetAge||"不明",color:"#00996b"}].map(s=>(
+                <div key={s.label} style={{ background:"#fff",borderRadius:8,padding:"8px 10px",border:"1px solid #f0e8ff" }}>
+                  <div style={{ fontSize:9,color:"#ccc",marginBottom:3 }}>{s.label}</div>
                   <div style={{ fontSize:12,fontWeight:700,color:s.color }}>{s.value}</div>
                 </div>
               ))}
             </div>
-            {aiResult.reason&&<div style={{ background:"#ffffff06",borderRadius:8,padding:"8px 10px",fontSize:11,color:"#aaa",lineHeight:1.6,borderLeft:"2px solid #b44fff" }}>💡 {aiResult.reason}</div>}
+            {aiResult.reason&&<div style={{ background:"#f8f0ff",borderRadius:8,padding:"8px 10px",fontSize:11,color:"#888",lineHeight:1.6,borderLeft:"2px solid #b44fff" }}>💡 {aiResult.reason}</div>}
           </div>
 
-          <div style={{ background:"#0d0d1e",border:"1px solid #ffffff0a",borderRadius:14,padding:16 }}>
-            <div style={{ fontSize:12,fontWeight:700,color:"#aaa",marginBottom:12 }}>🗼 東京エリア別 推定再生数/日</div>
+          <div style={{ background:"#fff",border:"1px solid #f0e8ff",borderRadius:14,padding:16,boxShadow:"0 2px 12px #b44fff0c" }}>
+            <div style={{ fontSize:12,fontWeight:700,color:"#888",marginBottom:12 }}>🗼 東京エリア別 推定再生数/日</div>
             {/* エリア別集計ドット */}
             <div style={{ display:"flex",flexWrap:"wrap",gap:8,marginBottom:16,alignItems:"flex-end",justifyContent:"center" }}>
               {areaData.map(a => {
                 const r = 14 + (a.plays/maxArea)*20;
                 return (
                   <div key={a.city} style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:3 }}>
-                    <div style={{ width:r*2,height:r*2,borderRadius:"50%",background:`${a.color}33`,border:`1px solid ${a.color}88`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:a.color,fontWeight:700,textAlign:"center",lineHeight:1.2 }}>
+                    <div style={{ width:r*2,height:r*2,borderRadius:"50%",background:`${a.color}22`,border:`1.5px solid ${a.color}88`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:8,color:a.color,fontWeight:700,textAlign:"center",lineHeight:1.2 }}>
                       {a.plays>999?`${(a.plays/1000).toFixed(1)}k`:a.plays}
                     </div>
-                    <div style={{ fontSize:8,color:"#666" }}>{a.city}</div>
+                    <div style={{ fontSize:8,color:"#bbb" }}>{a.city}</div>
                   </div>
                 );
               })}
@@ -371,16 +371,16 @@ function YouTubeScreen() {
             {venueData.map((v,i)=>(
               <div key={v.venue} style={{ marginBottom:10 }}>
                 <div style={{ display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:4 }}>
-                  <span style={{ color:i===0?"#fff":"#aaa" }}><span style={{ color:v.color,marginRight:6 }}>#{i+1}</span>{v.city} <span style={{ color:"#555",fontSize:10 }}>— {v.venue}</span></span>
+                  <span style={{ color:i===0?"#333":"#888" }}><span style={{ color:v.color,marginRight:6 }}>#{i+1}</span>{v.city} <span style={{ color:"#ccc",fontSize:10 }}>— {v.venue}</span></span>
                   <span style={{ color:v.color,fontWeight:700 }}>{v.plays.toLocaleString()} 回/日</span>
                 </div>
-                <div style={{ background:"#1a1a2e",borderRadius:4,height:5 }}>
+                <div style={{ background:"#f0e8ff",borderRadius:4,height:5 }}>
                   <div style={{ width:`${(v.plays/maxPlays)*100}%`,height:"100%",borderRadius:4,background:`linear-gradient(90deg,${v.color}66,${v.color})`,transition:"width 1s ease" }}/>
                 </div>
               </div>
             ))}
           </div>
-          <button onClick={reset} style={{ width:"100%",padding:12,background:"transparent",border:"1px solid #ffffff18",borderRadius:12,color:"#888",fontSize:12,cursor:"pointer" }}>別のURLを解析する</button>
+          <button onClick={reset} style={{ width:"100%",padding:12,background:"#fff",border:"1px solid #f0e8ff",borderRadius:12,color:"#bbb",fontSize:12,cursor:"pointer" }}>別のURLを解析する</button>
         </div>
       )}
     </div>
@@ -400,18 +400,18 @@ function ShareModal({ song, onClose }) {
   };
 
   return (
-    <div style={{ position:"fixed",inset:0,background:"#060610ee",backdropFilter:"blur(8px)",zIndex:150,display:"flex",flexDirection:"column",justifyContent:"flex-end" }}>
-      <div style={{ background:"#0d0d1e",borderRadius:"20px 20px 0 0",border:"1px solid #ffffff0a",padding:"20px 16px 32px" }}>
+    <div style={{ position:"fixed",inset:0,background:"rgba(180,150,220,0.35)",backdropFilter:"blur(8px)",zIndex:150,display:"flex",flexDirection:"column",justifyContent:"flex-end" }}>
+      <div style={{ background:"#fff",borderRadius:"24px 24px 0 0",border:"1px solid #f0e8ff",padding:"20px 16px 32px",boxShadow:"0 -4px 32px #b44fff18" }}>
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16 }}>
-          <div style={{ fontSize:14,fontWeight:900 }}>「{song.title}」をシェア</div>
-          <button onClick={onClose} style={{ background:"#ffffff14",border:"none",borderRadius:"50%",width:28,height:28,color:"#888",fontSize:16,cursor:"pointer" }}>×</button>
+          <div style={{ fontSize:14,fontWeight:900,color:"#333" }}>「{song.title}」をシェア</div>
+          <button onClick={onClose} style={{ background:"#f0e8ff",border:"none",borderRadius:"50%",width:28,height:28,color:"#b44fff",fontSize:16,cursor:"pointer" }}>×</button>
         </div>
         <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-          {[{id:"x",label:"Xでシェア",icon:"✕",bg:"#0a0a0a"},{id:"line",label:"LINEでシェア",icon:"💬",bg:"#003318"},{id:"copy",label:"リンクをコピー",icon:"🔗",bg:"#0d0d1e"}].map(s=>(
-            <button key={s.id} onClick={()=>share(s.id)} style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 14px",background:s.bg,border:"1px solid #ffffff14",borderRadius:12,cursor:"pointer",width:"100%" }}>
-              <div style={{ width:32,height:32,borderRadius:9,background:"#ffffff12",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,color:"#fff",fontWeight:900,flexShrink:0 }}>{s.icon}</div>
-              <span style={{ fontSize:13,fontWeight:700,color:"#fff" }}>{s.label}</span>
-              {s.id==="copy"&&copied&&<span style={{ marginLeft:"auto",fontSize:10,color:"#00ff9f",fontWeight:700 }}>コピー済</span>}
+          {[{id:"x",label:"Xでシェア",icon:"✕",bg:"#f5f5f5",tc:"#333"},{id:"line",label:"LINEでシェア",icon:"💬",bg:"#edfff4",tc:"#006633"},{id:"copy",label:"リンクをコピー",icon:"🔗",bg:"#f8f4ff",tc:"#7722cc"}].map(s=>(
+            <button key={s.id} onClick={()=>share(s.id)} style={{ display:"flex",alignItems:"center",gap:12,padding:"12px 14px",background:s.bg,border:"1px solid #f0e8ff",borderRadius:14,cursor:"pointer",width:"100%" }}>
+              <div style={{ width:32,height:32,borderRadius:10,background:"#fff",border:"1px solid #e8e0f0",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,color:s.tc,fontWeight:900,flexShrink:0 }}>{s.icon}</div>
+              <span style={{ fontSize:13,fontWeight:700,color:s.tc }}>{s.label}</span>
+              {s.id==="copy"&&copied&&<span style={{ marginLeft:"auto",fontSize:10,color:"#00996b",fontWeight:700 }}>コピー済</span>}
             </button>
           ))}
         </div>
@@ -430,48 +430,48 @@ function MapScreen() {
   return (
     <div>
       <svg viewBox="45 25 165 185" style={{ width:"100%",maxHeight:280,display:"block" }} onClick={()=>setSel(null)}>
-        <defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ffffff04" strokeWidth=".5"/></pattern></defs>
+        <defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="#d8d0ee" strokeWidth=".4"/></pattern></defs>
         <rect x="45" y="25" width="165" height="185" fill="url(#g)"/>
         {/* 主要路線 */}
-        <polyline points="88,48 113,72 128,102 128,128 125,152 140,172 133,192" fill="none" stroke="#1e1e40" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <line x1="128" y1="102" x2="185" y2="100" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
-        <line x1="128" y1="102" x2="68" y2="90" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
-        <line x1="125" y1="152" x2="90" y2="162" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
-        <line x1="128" y1="128" x2="163" y2="132" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
-        <line x1="163" y1="132" x2="168" y2="152" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
-        <line x1="163" y1="132" x2="185" y2="100" stroke="#1e1e40" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <polyline points="88,48 113,72 128,102 128,128 125,152 140,172 133,192" fill="none" stroke="#d0c0e8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <line x1="128" y1="102" x2="185" y2="100" stroke="#d0c0e8" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="128" y1="102" x2="68" y2="90" stroke="#d0c0e8" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="125" y1="152" x2="90" y2="162" stroke="#d0c0e8" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="128" y1="128" x2="163" y2="132" stroke="#d0c0e8" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="163" y1="132" x2="168" y2="152" stroke="#d0c0e8" strokeWidth="1.5" strokeDasharray="3,3"/>
+        <line x1="163" y1="132" x2="185" y2="100" stroke="#d0c0e8" strokeWidth="1.5" strokeDasharray="3,3"/>
         {VENUES.map(v=>{
           const r=8+(v.plays/maxP)*20, isSel=sel===v.id;
           return (
             <g key={v.id} onClick={e=>{e.stopPropagation();setSel(v.id);}} style={{ cursor:"pointer" }}>
-              <circle cx={v.x} cy={v.y} r={r+4+(pulse%2)*4} fill="none" stroke={v.color} strokeWidth="1" opacity={isSel?.5:.15}/>
-              <circle cx={v.x} cy={v.y} r={r} fill={v.color} opacity={isSel?1:.7} style={{ filter:isSel?`drop-shadow(0 0 8px ${v.color})`:`drop-shadow(0 0 3px ${v.color}66)` }}/>
-              <text x={v.x} y={v.y+2} textAnchor="middle" fontSize="6" fill="#000" fontWeight="900" opacity=".85">{v.plays>999?`${(v.plays/1000).toFixed(1)}k`:v.plays}</text>
-              <text x={v.x} y={v.y+r+8} textAnchor="middle" fontSize="5.5" fill={isSel?v.color:"#aaa"}>{v.city}</text>
+              <circle cx={v.x} cy={v.y} r={r+4+(pulse%2)*4} fill="none" stroke={v.color} strokeWidth="1" opacity={isSel?.6:.25}/>
+              <circle cx={v.x} cy={v.y} r={r} fill={v.color} opacity={isSel?1:.75} style={{ filter:isSel?`drop-shadow(0 0 8px ${v.color})`:`drop-shadow(0 0 3px ${v.color}66)` }}/>
+              <text x={v.x} y={v.y+2} textAnchor="middle" fontSize="6" fill="#fff" fontWeight="900" opacity=".9">{v.plays>999?`${(v.plays/1000).toFixed(1)}k`:v.plays}</text>
+              <text x={v.x} y={v.y+r+8} textAnchor="middle" fontSize="5.5" fill={isSel?v.color:"#999"}>{v.city}</text>
             </g>
           );
         })}
       </svg>
       <div style={{ padding:"0 16px 16px" }}>
         {selV?(
-          <div style={{ background:"#0d0d1e",border:`1px solid ${selV.color}44`,borderRadius:14,padding:14 }}>
+          <div style={{ background:"#fff",border:`1.5px solid ${selV.color}55`,borderRadius:16,padding:14,boxShadow:`0 4px 20px ${selV.color}18` }}>
             <div style={{ display:"flex",justifyContent:"space-between",marginBottom:6 }}>
               <div>
                 <div style={{ fontSize:10,color:selV.color,fontWeight:700,marginBottom:4 }}>📍{selV.city}</div>
-                <div style={{ fontSize:14,fontWeight:900 }}>{selV.name} エリア</div>
+                <div style={{ fontSize:14,fontWeight:900,color:"#333" }}>{selV.name} エリア</div>
               </div>
-              <button onClick={()=>setSel(null)} style={{ background:"transparent",border:"none",color:"#555",fontSize:18,cursor:"pointer" }}>×</button>
+              <button onClick={()=>setSel(null)} style={{ background:"#f0e8ff",border:"none",borderRadius:"50%",width:26,height:26,color:"#b44fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center" }}>×</button>
             </div>
-            <div style={{ fontSize:10,color:"#555",marginBottom:10 }}>
+            <div style={{ fontSize:10,color:"#ccc",marginBottom:10 }}>
               {MOCK_VENUES_YT.filter(v=>v.city===selV.city).map(v=>v.venue).join(" · ")}
             </div>
             {selV.songs.map((s,i)=>(
               <div key={s.title} style={{ marginBottom:8 }}>
                 <div style={{ display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:3 }}>
-                  <span style={{ color:i===0?"#fff":"#aaa" }}><span style={{ color:selV.color,marginRight:6 }}>#{i+1}</span>{s.title}</span>
+                  <span style={{ color:i===0?"#333":"#888" }}><span style={{ color:selV.color,marginRight:6 }}>#{i+1}</span>{s.title}</span>
                   <span style={{ color:selV.color,fontWeight:700 }}>{s.plays}</span>
                 </div>
-                <div style={{ background:"#1a1a2e",borderRadius:3,height:3 }}>
+                <div style={{ background:"#f0e8ff",borderRadius:3,height:3 }}>
                   <div style={{ width:`${(s.plays/selV.songs[0].plays)*100}%`,height:"100%",background:`linear-gradient(90deg,${selV.color}88,${selV.color})`,borderRadius:3 }}/>
                 </div>
               </div>
@@ -480,11 +480,11 @@ function MapScreen() {
         ):(
           <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
             {[...VENUES].sort((a,b)=>b.plays-a.plays).map((v,i)=>(
-              <div key={v.id} onClick={()=>setSel(v.id)} style={{ display:"flex",alignItems:"center",gap:10,padding:"9px 12px",background:"#0d0d1e",border:"1px solid #ffffff08",borderRadius:10,cursor:"pointer" }}>
-                <div style={{ width:24,height:24,borderRadius:"50%",background:`${v.color}22`,border:`1px solid ${v.color}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:v.color,flexShrink:0 }}>{i+1}</div>
+              <div key={v.id} onClick={()=>setSel(v.id)} style={{ display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:"#fff",border:"1px solid #f0e8ff",borderRadius:12,cursor:"pointer",boxShadow:"0 1px 8px #b44fff08" }}>
+                <div style={{ width:26,height:26,borderRadius:"50%",background:`${v.color}22`,border:`1.5px solid ${v.color}55`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:v.color,flexShrink:0 }}>{i+1}</div>
                 <div style={{ flex:1,minWidth:0 }}>
-                  <div style={{ fontSize:12,fontWeight:700,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{v.name}</div>
-                  <div style={{ fontSize:10,color:"#666" }}>{MOCK_VENUES_YT.filter(mv=>mv.city===v.city).map(mv=>mv.venue).join(" · ")}</div>
+                  <div style={{ fontSize:12,fontWeight:700,color:"#333",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{v.name}</div>
+                  <div style={{ fontSize:10,color:"#ccc" }}>{MOCK_VENUES_YT.filter(mv=>mv.city===v.city).map(mv=>mv.venue).join(" · ")}</div>
                 </div>
                 <div style={{ fontSize:13,fontWeight:900,color:v.color,flexShrink:0 }}>{v.plays.toLocaleString()}</div>
               </div>
@@ -508,7 +508,7 @@ export default function App() {
   const [shareTarget, setShareTarget] = useState(null);
 
   return (
-    <div style={{ minHeight:"100vh",background:"#060610",color:"#fff",fontFamily:"'Hiragino Sans','Yu Gothic','Noto Sans JP',sans-serif",paddingBottom:64 }}>
+    <div style={{ minHeight:"100vh",background:"#faf8ff",color:"#333",fontFamily:"'Hiragino Sans','Yu Gothic','Noto Sans JP',sans-serif",paddingBottom:64 }}>
       <style>{`
         @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(1.5)}}
@@ -524,11 +524,11 @@ export default function App() {
 
       {shareTarget&&<ShareModal song={shareTarget} onClose={()=>setShareTarget(null)}/>}
 
-      <div style={{ padding:"14px 16px",background:"#09091888",backdropFilter:"blur(12px)",borderBottom:"1px solid #ffffff0a",display:"flex",justifyContent:"space-between",alignItems:"center",position:"sticky",top:0,zIndex:50 }}>
+      <div style={{ padding:"14px 16px",background:"rgba(255,255,255,0.92)",backdropFilter:"blur(12px)",borderBottom:"1px solid #f0e8ff",display:"flex",justifyContent:"space-between",alignItems:"center",position:"sticky",top:0,zIndex:50,boxShadow:"0 1px 12px #b44fff10" }}>
         <div>
           <span style={{ fontSize:16,fontWeight:900,color:"#ff3366" }}>IDOL</span>
-          <span style={{ fontSize:16,fontWeight:900 }}>WAVE</span>
-          <span style={{ fontSize:10,color:"#555",marginLeft:8 }}>東京ライブハウス</span>
+          <span style={{ fontSize:16,fontWeight:900,color:"#333" }}>WAVE</span>
+          <span style={{ fontSize:10,color:"#ccc",marginLeft:8 }}>東京ライブハウス</span>
         </div>
         <div style={{ display:"flex",alignItems:"center",gap:6,fontSize:9,color:"#ff3366",fontWeight:700 }}>
           <div style={{ width:5,height:5,borderRadius:"50%",background:"#ff3366",animation:"pulse 1s infinite" }}/>ON AIR
@@ -541,11 +541,11 @@ export default function App() {
         {tab==="map"     && <MapScreen/>}
       </div>
 
-      <div style={{ position:"fixed",bottom:0,left:0,right:0,background:"#09091fee",backdropFilter:"blur(16px)",borderTop:"1px solid #ffffff0a",display:"flex",zIndex:100 }}>
+      <div style={{ position:"fixed",bottom:0,left:0,right:0,background:"rgba(255,255,255,0.95)",backdropFilter:"blur(16px)",borderTop:"1px solid #f0e8ff",display:"flex",zIndex:100,boxShadow:"0 -2px 16px #b44fff10" }}>
         {TABS.map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)} style={{ flex:1,padding:"10px 0 12px",background:"transparent",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3 }}>
             <span style={{ fontSize:20,filter:tab===t.id?"drop-shadow(0 0 6px #ff3366)":"none",transition:"filter .2s" }}>{t.icon}</span>
-            <span style={{ fontSize:9,fontWeight:tab===t.id?"800":"400",color:tab===t.id?"#ff3366":"#555",transition:"color .2s" }}>{t.label}</span>
+            <span style={{ fontSize:9,fontWeight:tab===t.id?"800":"400",color:tab===t.id?"#ff3366":"#bbb",transition:"color .2s" }}>{t.label}</span>
             {tab===t.id&&<div style={{ width:20,height:2,borderRadius:2,background:"#ff3366",marginTop:1 }}/>}
           </button>
         ))}
