@@ -28,28 +28,52 @@ const VENUES = [
 const MOCK_VENUES_YT = [
   { city:"渋谷",    venue:"SHIBUYA PLEASURE PLEASURE", color:"#ff3366" },
   { city:"渋谷",    venue:"WWW",                        color:"#ff3366" },
+  { city:"渋谷",    venue:"WWW X",                      color:"#ff3366" },
+  { city:"渋谷",    venue:"CLUB QUATTRO",               color:"#ff3366" },
+  { city:"渋谷",    venue:"CLUB ASIA",                  color:"#ff3366" },
+  { city:"渋谷",    venue:"CYCLONE",                    color:"#ff3366" },
+  { city:"渋谷",    venue:"O-EAST",                     color:"#ff3366" },
   { city:"下北沢",  venue:"SHELTER",                    color:"#00d4ff" },
   { city:"下北沢",  venue:"GARDEN",                     color:"#00d4ff" },
-  { city:"新宿",    venue:"SHINJUKU BLAZE",             color:"#ffd700" },
-  { city:"新宿",    venue:"ACB HALL",                   color:"#ffd700" },
+  { city:"下北沢",  venue:"THREE",                      color:"#00d4ff" },
+  { city:"下北沢",  venue:"LIVE HAUS",                  color:"#00d4ff" },
+  { city:"下北沢",  venue:"CLUB QUE",                   color:"#00d4ff" },
+  { city:"下北沢",  venue:"DAISY BAR",                  color:"#00d4ff" },
+  { city:"新宿",    venue:"SHINJUKU BLAZE",             color:"#c8a000" },
+  { city:"新宿",    venue:"ACB HALL",                   color:"#c8a000" },
+  { city:"新宿",    venue:"HOLIDAY SHINJUKU",           color:"#c8a000" },
+  { city:"新宿",    venue:"MARZ",                       color:"#c8a000" },
+  { city:"新宿",    venue:"ANTIKNOCK",                  color:"#c8a000" },
   { city:"秋葉原",  venue:"TOKYO IDOL THEATER",         color:"#b44fff" },
   { city:"秋葉原",  venue:"AKiBA CULTURES THEATER",     color:"#b44fff" },
-  { city:"池袋",    venue:"BLACK HOLE",                 color:"#00ff9f" },
-  { city:"池袋",    venue:"ZERO IKEBUKURO",             color:"#00ff9f" },
+  { city:"秋葉原",  venue:"CLUB GOODMAN",               color:"#b44fff" },
+  { city:"秋葉原",  venue:"MOGRA",                      color:"#b44fff" },
+  { city:"池袋",    venue:"BLACK HOLE",                 color:"#00cc88" },
+  { city:"池袋",    venue:"ZERO IKEBUKURO",             color:"#00cc88" },
+  { city:"池袋",    venue:"RUIDO K3",                   color:"#00cc88" },
+  { city:"池袋",    venue:"DUO MUSIC EXCHANGE",         color:"#00cc88" },
   { city:"高田馬場", venue:"AREA",                      color:"#ff6b35" },
   { city:"高田馬場", venue:"PHASE",                     color:"#ff6b35" },
-  { city:"中野",    venue:"HEAVY SICK ZERO",            color:"#ff99cc" },
-  { city:"中野",    venue:"THE CAGE",                   color:"#ff99cc" },
-  { city:"恵比寿",  venue:"LIQUID ROOM",                color:"#00ccff" },
-  { city:"恵比寿",  venue:"GARDEN HALL",                color:"#00ccff" },
-  { city:"目黒",    venue:"BLUES ALLEY JAPAN",          color:"#99ff99" },
-  { city:"目黒",    venue:"MEGURO LIVE STATION",        color:"#99ff99" },
-  { city:"原宿",    venue:"LAFORET MUSEUM",             color:"#ffcc00" },
-  { city:"原宿",    venue:"ASTRO HALL",                 color:"#ffcc00" },
-  { city:"赤坂",    venue:"AKASAKA BLITZ",              color:"#cc44ff" },
-  { city:"赤坂",    venue:"RED THEATER",                color:"#cc44ff" },
-  { city:"六本木",  venue:"EX THEATER ROPPONGI",        color:"#ff4444" },
-  { city:"六本木",  venue:"V2 TOKYO",                   color:"#ff4444" },
+  { city:"高田馬場", venue:"CLUB BOX",                  color:"#ff6b35" },
+  { city:"高田馬場", venue:"BEAT STUDIO",               color:"#ff6b35" },
+  { city:"中野",    venue:"HEAVY SICK ZERO",            color:"#ff77aa" },
+  { city:"中野",    venue:"THE CAGE",                   color:"#ff77aa" },
+  { city:"中野",    venue:"MOON STEP",                  color:"#ff77aa" },
+  { city:"恵比寿",  venue:"LIQUID ROOM",                color:"#00aadd" },
+  { city:"恵比寿",  venue:"GARDEN HALL",                color:"#00aadd" },
+  { city:"恵比寿",  venue:"BATICA",                     color:"#00aadd" },
+  { city:"目黒",    venue:"BLUES ALLEY JAPAN",          color:"#55bb55" },
+  { city:"目黒",    venue:"MEGURO LIVE STATION",        color:"#55bb55" },
+  { city:"目黒",    venue:"STAIRWAY",                   color:"#55bb55" },
+  { city:"原宿",    venue:"LAFORET MUSEUM",             color:"#cc9900" },
+  { city:"原宿",    venue:"ASTRO HALL",                 color:"#cc9900" },
+  { city:"原宿",    venue:"QUEST HALL",                 color:"#cc9900" },
+  { city:"赤坂",    venue:"AKASAKA BLITZ",              color:"#aa33ee" },
+  { city:"赤坂",    venue:"RED THEATER",                color:"#aa33ee" },
+  { city:"赤坂",    venue:"B-FLAT",                     color:"#aa33ee" },
+  { city:"六本木",  venue:"EX THEATER ROPPONGI",        color:"#dd3333" },
+  { city:"六本木",  venue:"V2 TOKYO",                   color:"#dd3333" },
+  { city:"六本木",  venue:"CLUB 328",                   color:"#dd3333" },
 ];
 
 const fmt = (s) => `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
@@ -429,7 +453,7 @@ function MapScreen() {
   const selV = VENUES.find(v=>v.id===sel);
   return (
     <div>
-      <svg viewBox="45 25 165 185" style={{ width:"100%",maxHeight:280,display:"block" }} onClick={()=>setSel(null)}>
+      <svg viewBox="45 25 165 185" style={{ width:"100%",maxHeight:400,display:"block" }} onClick={()=>setSel(null)}>
         <defs><pattern id="g" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="#d8d0ee" strokeWidth=".4"/></pattern></defs>
         <rect x="45" y="25" width="165" height="185" fill="url(#g)"/>
         {/* 主要路線 */}
@@ -462,8 +486,10 @@ function MapScreen() {
               </div>
               <button onClick={()=>setSel(null)} style={{ background:"#f0e8ff",border:"none",borderRadius:"50%",width:26,height:26,color:"#b44fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center" }}>×</button>
             </div>
-            <div style={{ fontSize:10,color:"#ccc",marginBottom:10 }}>
-              {MOCK_VENUES_YT.filter(v=>v.city===selV.city).map(v=>v.venue).join(" · ")}
+            <div style={{ display:"flex",flexWrap:"wrap",gap:5,marginBottom:12 }}>
+              {MOCK_VENUES_YT.filter(v=>v.city===selV.city).map(v=>(
+                <span key={v.venue} style={{ fontSize:9,color:selV.color,background:`${selV.color}12`,border:`1px solid ${selV.color}33`,borderRadius:8,padding:"3px 8px",fontWeight:600 }}>{v.venue}</span>
+              ))}
             </div>
             {selV.songs.map((s,i)=>(
               <div key={s.title} style={{ marginBottom:8 }}>
@@ -483,8 +509,11 @@ function MapScreen() {
               <div key={v.id} onClick={()=>setSel(v.id)} style={{ display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:"#fff",border:"1px solid #f0e8ff",borderRadius:12,cursor:"pointer",boxShadow:"0 1px 8px #b44fff08" }}>
                 <div style={{ width:26,height:26,borderRadius:"50%",background:`${v.color}22`,border:`1.5px solid ${v.color}55`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:v.color,flexShrink:0 }}>{i+1}</div>
                 <div style={{ flex:1,minWidth:0 }}>
-                  <div style={{ fontSize:12,fontWeight:700,color:"#333",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{v.name}</div>
-                  <div style={{ fontSize:10,color:"#ccc" }}>{MOCK_VENUES_YT.filter(mv=>mv.city===v.city).map(mv=>mv.venue).join(" · ")}</div>
+                  <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:2 }}>
+                    <div style={{ fontSize:12,fontWeight:700,color:"#333" }}>{v.name}</div>
+                    <span style={{ fontSize:9,color:v.color,background:`${v.color}15`,border:`1px solid ${v.color}33`,borderRadius:6,padding:"1px 6px",flexShrink:0 }}>{MOCK_VENUES_YT.filter(mv=>mv.city===v.city).length}会場</span>
+                  </div>
+                  <div style={{ fontSize:10,color:"#ccc",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{MOCK_VENUES_YT.filter(mv=>mv.city===v.city).map(mv=>mv.venue).join(" · ")}</div>
                 </div>
                 <div style={{ fontSize:13,fontWeight:900,color:v.color,flexShrink:0 }}>{v.plays.toLocaleString()}</div>
               </div>
