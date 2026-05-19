@@ -78,6 +78,8 @@ const Vinyl = ({ playing, color, img }) => (
 );
 
 // ─── Radio Screen ──────────────────────────────────────
+const DECO = ["⭐","💫","✨","🎵","♪","🎀","💕","🌸"];
+
 function RadioScreen({ onShare }) {
   const [idx, setIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -96,67 +98,110 @@ function RadioScreen({ onShare }) {
   const pct=(progress/song.duration)*100;
 
   if(showQueue) return (
-    <div style={{ padding:"16px",display:"flex",flexDirection:"column",gap:8 }}>
-      <div style={{ display:"flex",justifyContent:"space-between",marginBottom:4 }}>
-        <span style={{ fontSize:11,color:"#666" }}>QUEUE</span>
-        <button onClick={()=>setShowQueue(false)} style={{ background:"transparent",border:"none",color:"#888",fontSize:12,cursor:"pointer" }}>← 戻る</button>
+    <div style={{ background:"linear-gradient(160deg,#fff0f8,#f4eeff,#fff8f0)",minHeight:"calc(100vh - 130px)",padding:"16px",display:"flex",flexDirection:"column",gap:8 }}>
+      <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4 }}>
+        <span style={{ fontSize:11,color:"#b44fff",fontWeight:800 }}>♪ QUEUE</span>
+        <button onClick={()=>setShowQueue(false)} style={{ background:"#b44fff18",border:"1px solid #b44fff44",borderRadius:20,color:"#b44fff",fontSize:11,cursor:"pointer",padding:"4px 12px",fontWeight:700 }}>← 戻る</button>
       </div>
       {SONGS.map((s,i)=>(
-        <div key={s.id} onClick={()=>{setIdx(i);setProgress(0);setPlaying(true);setShowQueue(false);}} style={{ display:"flex",alignItems:"center",gap:12,padding:"10px 12px",borderRadius:12,background:i===idx?`${s.color}18`:"#0d0d1e",border:`1px solid ${i===idx?s.color+"44":"#ffffff0a"}`,cursor:"pointer" }}>
-          <div style={{ width:34,height:34,borderRadius:"50%",background:`${s.color}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16 }}>{s.img}</div>
-          <div style={{ flex:1 }}>
-            <div style={{ fontSize:12,fontWeight:700,color:i===idx?s.color:"#fff" }}>{s.title}</div>
-            <div style={{ fontSize:10,color:"#666" }}>{s.artist} · {s.city}</div>
+        <div key={s.id} onClick={()=>{setIdx(i);setProgress(0);setPlaying(true);setShowQueue(false);}} style={{ display:"flex",alignItems:"center",gap:12,padding:"10px 12px",borderRadius:16,background:i===idx?"#fff":"rgba(255,255,255,0.75)",border:`1.5px solid ${i===idx?s.color+"66":"#f0e0f8"}`,boxShadow:i===idx?`0 4px 16px ${s.color}33`:"0 2px 8px #00000008",cursor:"pointer",transition:"all .2s" }}>
+          <div style={{ width:36,height:36,borderRadius:"50%",background:`linear-gradient(135deg,${s.color}44,${s.color}11)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,border:`1.5px solid ${s.color}55`,flexShrink:0 }}>{s.img}</div>
+          <div style={{ flex:1,minWidth:0 }}>
+            <div style={{ fontSize:12,fontWeight:700,color:i===idx?s.color:"#333",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{s.title}</div>
+            <div style={{ fontSize:10,color:"#aaa",marginTop:1 }}>{s.artist} · {s.city}</div>
           </div>
-          <span style={{ fontSize:11,color:"#555" }}>{fmt(s.duration)}</span>
+          <span style={{ fontSize:11,color:"#ccc",flexShrink:0 }}>{fmt(s.duration)}</span>
         </div>
       ))}
     </div>
   );
 
   return (
-    <div style={{ padding:"20px 16px",display:"flex",flexDirection:"column",gap:20,position:"relative" }}>
-      <div style={{ position:"fixed",inset:0,background:`radial-gradient(ellipse at 50% 20%,${song.color}14,transparent 60%)`,pointerEvents:"none",transition:"background 1s",zIndex:0 }}/>
-      <div style={{ position:"relative",zIndex:1,display:"flex",flexDirection:"column",gap:20 }}>
+    <div style={{ position:"relative",background:`linear-gradient(160deg,#fff0f8,#f4eeff,#fffaf0)`,minHeight:"calc(100vh - 130px)",overflow:"hidden" }}>
+      {/* 浮遊デコレーション */}
+      {DECO.map((d,i)=>(
+        <div key={i} style={{ position:"absolute",fontSize:12+i%3*5,opacity:.18,animation:`float${i%4} ${2.8+i*.6}s ease-in-out infinite`,animationDelay:`${i*.35}s`,left:`${7+i*11}%`,top:`${4+i*9}%`,pointerEvents:"none",userSelect:"none" }}>{d}</div>
+      ))}
+
+      {/* 曲カラーのふわっとした光 */}
+      <div style={{ position:"absolute",inset:0,background:`radial-gradient(ellipse at 50% 5%,${song.color}20,transparent 60%)`,pointerEvents:"none",transition:"background 1.2s" }}/>
+
+      <div style={{ position:"relative",zIndex:1,padding:"18px 16px",display:"flex",flexDirection:"column",gap:16 }}>
+
+        {/* ヘッダー */}
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center" }}>
-          <div style={{ display:"flex",alignItems:"center",gap:6,fontSize:10,color:"#ff3366",fontWeight:700 }}>
-            <div style={{ width:6,height:6,borderRadius:"50%",background:"#ff3366",animation:"pulse 1s infinite" }}/>ON AIR
+          <div style={{ display:"flex",alignItems:"center",gap:6,background:"#ff336618",border:"1px solid #ff336644",borderRadius:20,padding:"4px 12px" }}>
+            <div style={{ width:6,height:6,borderRadius:"50%",background:"#ff3366",animation:"pulse 1s infinite" }}/>
+            <span style={{ fontSize:10,color:"#ff3366",fontWeight:800 }}>ON AIR</span>
           </div>
-          <button onClick={()=>setShowQueue(true)} style={{ background:"transparent",border:"1px solid #ffffff22",borderRadius:8,color:"#888",padding:"5px 12px",fontSize:10,cursor:"pointer" }}>キュー ▸</button>
+          <button onClick={()=>setShowQueue(true)} style={{ background:"rgba(255,255,255,0.85)",border:"1.5px solid #b44fff44",borderRadius:20,color:"#b44fff",padding:"5px 14px",fontSize:10,cursor:"pointer",fontWeight:700,boxShadow:"0 2px 10px #b44fff18" }}>キュー ▸</button>
         </div>
-        <div style={{ display:"flex",alignItems:"center",gap:16 }}>
-          <Vinyl playing={playing} color={song.color} img={song.img}/>
-          <div style={{ flex:1,minWidth:0 }}>
-            <div style={{ fontSize:10,color:song.color,fontWeight:700,background:`${song.color}22`,display:"inline-block",padding:"2px 8px",borderRadius:4,marginBottom:6 }}>{song.group}</div>
-            <div style={{ fontSize:18,fontWeight:900,color:"#fff",lineHeight:1.2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{song.title}</div>
-            <div style={{ fontSize:11,color:"#aaa",marginTop:2 }}>{song.artist}</div>
-            <div style={{ fontSize:10,color:"#555",marginTop:4 }}>📍{song.city} · {song.venue}</div>
-          </div>
-        </div>
-        <div style={{ background:"#0d0d1e",borderRadius:12,padding:"12px 14px",border:`1px solid ${song.color}22` }}>
-          <div style={{ display:"flex",justifyContent:"space-between",fontSize:10,color:"#666",marginBottom:8 }}>
-            <span>🎵 本日 <strong style={{ color:song.color }}>{song.plays.toLocaleString()}</strong> 回</span>
-            <span>東京 #{song.rank}</span>
-          </div>
-          <WaveViz playing={playing} color={song.color}/>
-        </div>
-        <div>
-          <div style={{ height:4,background:"#1a1a2e",borderRadius:4,cursor:"pointer" }} onClick={e=>{const r=e.currentTarget.getBoundingClientRect();setProgress(Math.floor(((e.clientX-r.left)/r.width)*song.duration));}}>
-            <div style={{ height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${song.color}88,${song.color})`,borderRadius:4,position:"relative",transition:"width .5s linear" }}>
-              <div style={{ position:"absolute",right:-5,top:"50%",transform:"translateY(-50%)",width:10,height:10,borderRadius:"50%",background:song.color }}/>
+
+        {/* メインカード */}
+        <div style={{ background:"rgba(255,255,255,0.88)",borderRadius:28,padding:"20px 18px",boxShadow:`0 8px 36px ${song.color}28,0 2px 12px #00000010`,border:`1.5px solid ${song.color}30`,backdropFilter:"blur(8px)" }}>
+
+          {/* アルバムアート＋曲情報 */}
+          <div style={{ display:"flex",alignItems:"center",gap:16,marginBottom:18 }}>
+            <div style={{ position:"relative",flexShrink:0 }}>
+              <div style={{ position:"absolute",inset:-5,borderRadius:"50%",background:`conic-gradient(${song.color},#ff9ed2,#ffd700,${song.color}88,${song.color})`,animation:playing?"spin 4s linear infinite":"none",opacity:.6 }}/>
+              <div style={{ position:"relative" }}>
+                <Vinyl playing={playing} color={song.color} img={song.img}/>
+              </div>
+            </div>
+            <div style={{ flex:1,minWidth:0 }}>
+              <div style={{ fontSize:10,color:song.color,fontWeight:800,background:`linear-gradient(135deg,${song.color}22,${song.color}08)`,display:"inline-block",padding:"3px 10px",borderRadius:20,marginBottom:8,border:`1px solid ${song.color}44` }}>✦ {song.group}</div>
+              <div style={{ fontSize:19,fontWeight:900,color:"#222",lineHeight:1.25,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{song.title}</div>
+              <div style={{ fontSize:11,color:"#888",marginTop:3,fontWeight:500 }}>{song.artist}</div>
+              <div style={{ fontSize:10,color:"#bbb",marginTop:5 }}>📍{song.city} · {song.venue}</div>
             </div>
           </div>
-          <div style={{ display:"flex",justifyContent:"space-between",fontSize:10,color:"#555",marginTop:4 }}><span>{fmt(progress)}</span><span>{fmt(song.duration)}</span></div>
+
+          {/* 再生数 ＋ ウェーブ */}
+          <div style={{ background:`linear-gradient(135deg,${song.color}12,${song.color}05)`,borderRadius:16,padding:"12px 14px",border:`1px solid ${song.color}22`,marginBottom:16 }}>
+            <div style={{ display:"flex",justifyContent:"space-between",fontSize:10,marginBottom:8 }}>
+              <span style={{ color:"#aaa" }}>🎵 本日 <strong style={{ color:song.color,fontSize:12 }}>{song.plays.toLocaleString()}</strong> 回</span>
+              <span style={{ background:`${song.color}18`,color:song.color,fontWeight:700,padding:"1px 8px",borderRadius:10 }}>東京 #{song.rank}</span>
+            </div>
+            <WaveViz playing={playing} color={song.color}/>
+          </div>
+
+          {/* シークバー */}
+          <div style={{ marginBottom:18 }}>
+            <div style={{ height:6,background:"#f0e6ff",borderRadius:6,cursor:"pointer" }} onClick={e=>{const r=e.currentTarget.getBoundingClientRect();setProgress(Math.floor(((e.clientX-r.left)/r.width)*song.duration));}}>
+              <div style={{ height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${song.color}99,${song.color},#ffd700)`,borderRadius:6,position:"relative",transition:"width .5s linear",boxShadow:`0 0 8px ${song.color}55` }}>
+                <div style={{ position:"absolute",right:-7,top:"50%",transform:"translateY(-50%)",width:14,height:14,borderRadius:"50%",background:"#fff",border:`2.5px solid ${song.color}`,boxShadow:`0 0 8px ${song.color}88` }}/>
+              </div>
+            </div>
+            <div style={{ display:"flex",justifyContent:"space-between",fontSize:10,color:"#ccc",marginTop:5 }}><span>{fmt(progress)}</span><span>{fmt(song.duration)}</span></div>
+          </div>
+
+          {/* コントロール */}
+          <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:12 }}>
+            <button onClick={()=>setLiked(l=>({...l,[song.id]:!l[song.id]}))} style={{ background:liked[song.id]?"#ff336618":"transparent",border:liked[song.id]?"1.5px solid #ff336644":"1.5px solid #f0d0e8",borderRadius:"50%",width:38,height:38,cursor:"pointer",fontSize:18,color:"#ff3366",transition:"all .2s",display:"flex",alignItems:"center",justifyContent:"center",transform:liked[song.id]?"scale(1.15)":"scale(1)" }}>♥</button>
+            <button onClick={()=>{setIdx(i=>(i-1+SONGS.length)%SONGS.length);setProgress(0);}} style={{ background:"rgba(255,255,255,0.9)",border:`1.5px solid ${song.color}33`,borderRadius:"50%",width:44,height:44,cursor:"pointer",fontSize:16,color:song.color,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 10px #00000012" }}>⏮</button>
+            <button onClick={()=>setPlaying(!playing)} style={{ width:66,height:66,borderRadius:"50%",background:`linear-gradient(135deg,${song.color},#ff7eb3)`,border:"3px solid #fff",cursor:"pointer",fontSize:24,color:"#fff",boxShadow:`0 6px 28px ${song.color}66,0 2px 8px #00000015`,display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .12s",transform:playing?"scale(.94)":"scale(1)" }}>
+              {playing?"⏸":"▶"}
+            </button>
+            <button onClick={()=>{setIdx(i=>(i+1)%SONGS.length);setProgress(0);}} style={{ background:"rgba(255,255,255,0.9)",border:`1.5px solid ${song.color}33`,borderRadius:"50%",width:44,height:44,cursor:"pointer",fontSize:16,color:song.color,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 10px #00000012" }}>⏭</button>
+            <button onClick={()=>onShare(song)} style={{ background:`linear-gradient(135deg,#ff3366,#b44fff)`,border:"none",borderRadius:20,color:"#fff",padding:"8px 14px",fontSize:11,cursor:"pointer",fontWeight:700,boxShadow:"0 3px 12px #ff336644" }}>シェア</button>
+          </div>
         </div>
-        <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:18 }}>
-          <button onClick={()=>setLiked(l=>({...l,[song.id]:!l[song.id]}))} style={{ background:"transparent",border:"none",cursor:"pointer",fontSize:20,opacity:liked[song.id]?1:.35,color:"#ff3366",transition:"all .2s" }}>♥</button>
-          <button onClick={()=>{setIdx(i=>(i-1+SONGS.length)%SONGS.length);setProgress(0);}} style={{ background:"#1a1a2e",border:"none",borderRadius:"50%",width:40,height:40,cursor:"pointer",fontSize:16,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center" }}>⏮</button>
-          <button onClick={()=>setPlaying(!playing)} style={{ width:60,height:60,borderRadius:"50%",background:`linear-gradient(135deg,${song.color},${song.color}88)`,border:"none",cursor:"pointer",fontSize:22,color:"#fff",boxShadow:`0 0 20px ${song.color}55`,display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .1s",transform:playing?"scale(.96)":"scale(1)" }}>
-            {playing?"⏸":"▶"}
-          </button>
-          <button onClick={()=>{setIdx(i=>(i+1)%SONGS.length);setProgress(0);}} style={{ background:"#1a1a2e",border:"none",borderRadius:"50%",width:40,height:40,cursor:"pointer",fontSize:16,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center" }}>⏭</button>
-          <button onClick={()=>onShare(song)} style={{ background:"transparent",border:"1px solid #ffffff22",borderRadius:8,color:"#aaa",padding:"8px 12px",fontSize:11,cursor:"pointer" }}>シェア</button>
+
+        {/* 曲リスト（ミニ） */}
+        <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+          <div style={{ fontSize:10,color:"#ccc",fontWeight:700,paddingLeft:4 }}>♪ 次の曲</div>
+          {SONGS.filter((_,i)=>i!==idx).slice(0,2).map(s=>(
+            <div key={s.id} onClick={()=>{setIdx(SONGS.indexOf(s));setProgress(0);setPlaying(true);}} style={{ display:"flex",alignItems:"center",gap:10,padding:"10px 12px",borderRadius:16,background:"rgba(255,255,255,0.7)",border:"1px solid #f0e0f8",cursor:"pointer",boxShadow:"0 2px 8px #00000008" }}>
+              <div style={{ width:30,height:30,borderRadius:"50%",background:`${s.color}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,border:`1px solid ${s.color}44`,flexShrink:0 }}>{s.img}</div>
+              <div style={{ flex:1,minWidth:0 }}>
+                <div style={{ fontSize:11,fontWeight:700,color:"#444",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis" }}>{s.title}</div>
+                <div style={{ fontSize:9,color:"#bbb",marginTop:1 }}>{s.artist}</div>
+              </div>
+              <span style={{ fontSize:10,color:"#ddd",flexShrink:0 }}>{fmt(s.duration)}</span>
+            </div>
+          ))}
         </div>
+
       </div>
     </div>
   );
@@ -470,6 +515,10 @@ export default function App() {
         @keyframes wv0{from{height:4px}to{height:22px}}@keyframes wv1{from{height:10px}to{height:20px}}
         @keyframes wv2{from{height:3px}to{height:24px}}@keyframes wv3{from{height:14px}to{height:17px}}
         @keyframes wv4{from{height:7px}to{height:21px}}
+        @keyframes float0{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(18deg)}}
+        @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-9px) rotate(-12deg)}}
+        @keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(22deg)}}
+        @keyframes float3{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-7px) rotate(-8deg)}}
         *{box-sizing:border-box;} input,button{font-family:inherit;}
       `}</style>
 
